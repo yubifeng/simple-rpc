@@ -10,8 +10,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public User findById(Long id) {
         User user = new User();
-        user.setName("nezha");
-        user.setAge(123);
+        user.setName("n");
+        user.setAge(id.intValue());
         return user;
     }
 }
