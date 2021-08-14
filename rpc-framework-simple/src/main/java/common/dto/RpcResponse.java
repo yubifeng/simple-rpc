@@ -1,8 +1,12 @@
 package common.dto;
 
+import common.enums.ResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import server.handler.NettyServerHandler;
 
 import java.io.Serializable;
 
@@ -32,6 +36,8 @@ public class RpcResponse<T> implements Serializable {
      */
     private T data;
 
+    private static final Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
+
     /**
      * 成功响应
      *
@@ -42,6 +48,7 @@ public class RpcResponse<T> implements Serializable {
      */
     public static <T> RpcResponse<T> success(T data) {
         RpcResponse<T> response = new RpcResponse<>();
+        logger.info("data的类型{}",data.getClass().getName());
         response.setCode(ResponseCode.SUCCESS.getValue());
         if (null != data) {
             response.setData(data);

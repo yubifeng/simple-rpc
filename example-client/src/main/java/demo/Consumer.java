@@ -2,6 +2,8 @@ package demo;
 
 
 
+import client.RpcClient;
+import client.impl.NettyRpcClient;
 import model.User;
 import proxy.ProxyFactory;
 import proxy.RpcClientProxy;
@@ -22,7 +24,8 @@ public class Consumer {
 
         //1.获取代理类
 //        IUserService userService = ProxyFactory.getProxy(IUserService.class);
-        RpcClientProxy rpcClientProxy = new RpcClientProxy("127.0.0.1",8888);
+        RpcClient rpcClient = new NettyRpcClient();
+        RpcClientProxy rpcClientProxy = new RpcClientProxy("127.0.0.1",8888,rpcClient);
         IUserService userService = rpcClientProxy.getProxy(IUserService.class);
         //2.触发InvocationHandler,进行远程代理
         User user = userService.findById(2L) ;

@@ -1,6 +1,11 @@
 package demo;
 
+import registry.ServiceRegistry;
+import registry.impl.DefaultServiceRegistry;
 import server.RpcServer;
+import server.handler.NettyServerHandler;
+import server.impl.NettyRpcServer;
+import server.impl.SocketRpcServer;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,7 +24,9 @@ public class Provider {
 
     public static void main(String[] args) {
         UserServiceImpl userService = new UserServiceImpl();
-        RpcServer rpcServer = new RpcServer();
-        rpcServer.register(userService, 8888);
+        ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
+        serviceRegistry.register(userService);
+        RpcServer rpcServer = new NettyRpcServer();
+        rpcServer.start(8888);
     }
 }

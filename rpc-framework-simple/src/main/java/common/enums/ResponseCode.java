@@ -1,4 +1,4 @@
-package common.dto;
+package common.enums;
 
 import lombok.*;
 

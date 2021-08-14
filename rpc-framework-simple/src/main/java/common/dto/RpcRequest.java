@@ -48,4 +48,8 @@ public class RpcRequest  implements Serializable {
 //     * 版本号
 //     */
 //    private String version;
+    /**
+     * 是否未心跳包
+     */
+    private boolean heartbeat;
 }

@@ -1,8 +1,10 @@
-package server;
+package server.handler;
 
 import common.dto.RpcRequest;
 import common.dto.RpcResponse;
+import common.enums.ResponseCode;
 import lombok.AllArgsConstructor;
+import registry.ServiceRegistry;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,19 +18,20 @@ import java.net.Socket;
  * @date: 2021/8/12
  */
 @AllArgsConstructor
-public class ProcessHandler implements Runnable {
+public class ScocketServerHandlerThread implements Runnable {
 
     private  Socket socket;
-    private  Object service;
-
+    private final ServiceRegistry serviceRegistry;
+    private final static RequestHandler requestHandler;
+    static {
+        requestHandler = new RequestHandler();
+    }
 
     @Override
     public void run()  {
-        try {
+        try ( ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream())){
             //1.接收所有的参数
-            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
             RpcRequest rpcRequest = (RpcRequest) inputStream.readObject();
-            Class clazz = null;
 
             //2.服务注册，找到具体的实现类
 //            if (rpcRequest.getInterfaceName().equals(IUserService.class.getName())){
@@ -36,29 +39,18 @@ public class ProcessHandler implements Runnable {
 //            }
 
             //3.反射执行UserServiceImpl的方法
-            Method method = service.getClass().getMethod(rpcRequest.getMethodName(),rpcRequest.getParamTypes());
-            Object result = method.invoke(service,rpcRequest.getParams());
-
+            String interfaceName = rpcRequest.getInterfaceName();
+            Object service = serviceRegistry.getService(interfaceName);
+            Object result = requestHandler.handle(rpcRequest, service);
 
             //4.返回结果给客户端
-            ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
             outputStream.writeObject(RpcResponse.success(result));
             outputStream.flush();
 
-
-            //5.关闭连接
-            outputStream.close();
-            inputStream.close();
-
-            socket.close();
-
-        } catch (IOException | ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-
-
     }
+
+
 }
