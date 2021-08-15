@@ -48,7 +48,6 @@ public class RpcResponse<T> implements Serializable {
      */
     public static <T> RpcResponse<T> success(T data) {
         RpcResponse<T> response = new RpcResponse<>();
-        logger.info("data的类型{}",data.getClass().getName());
         response.setCode(ResponseCode.SUCCESS.getValue());
         if (null != data) {
             response.setData(data);

@@ -4,6 +4,8 @@ package demo;
 
 import client.RpcClient;
 import client.impl.NettyRpcClient;
+import client.impl.SocketRpcClient;
+import model.Blog;
 import model.User;
 import proxy.ProxyFactory;
 import proxy.RpcClientProxy;
@@ -16,20 +18,31 @@ import java.lang.reflect.Proxy;
 import java.net.Socket;
 
 /**
- * @author: fanfanli
- * @date: 2021/8/12
+ * 服务消费者
+ * 测试
+ *
+ * @author fanfanli
+ * @date 2021/8/12
  */
 public class Consumer {
     public static void main(String[] args) {
 
-        //1.获取代理类
-//        IUserService userService = ProxyFactory.getProxy(IUserService.class);
+        //获取socket代理客户端
+//        RpcClient rpcClient = new SocketRpcClient();
+
+        //获取netty代理客户端
         RpcClient rpcClient = new NettyRpcClient();
-        RpcClientProxy rpcClientProxy = new RpcClientProxy("127.0.0.1",8888,rpcClient);
+        //获取代理类
+        RpcClientProxy rpcClientProxy = new RpcClientProxy(rpcClient);
+        //代理接口，调用远程服务
         IUserService userService = rpcClientProxy.getProxy(IUserService.class);
-        //2.触发InvocationHandler,进行远程代理
         User user = userService.findById(2L) ;
+        User user1 = userService.findById(2L) ;
         System.out.println(user);
+
+        BlogService blogService = rpcClientProxy.getProxy(BlogService.class);
+        Blog blog = blogService.getBlogById(22);
+        System.out.println(blog);
 
     }
 }

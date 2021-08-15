@@ -9,4 +9,8 @@ import model.User;
  */
 public interface IUserService {
     User findById(Long id);
+    //默认方法，为了测试不存在该方法（404）
+    default User find() {
+        return null;
+    }
 }

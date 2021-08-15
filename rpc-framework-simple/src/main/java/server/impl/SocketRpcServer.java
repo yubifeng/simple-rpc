@@ -2,6 +2,7 @@ package server.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import provider.ServiceProvider;
 import registry.ServiceRegistry;
 import server.handler.ScocketServerHandlerThread;
 import server.RpcServer;
@@ -18,10 +19,9 @@ import java.util.concurrent.*;
 public class SocketRpcServer implements RpcServer{
     private ExecutorService threadPool;
     private static final Logger logger = LoggerFactory.getLogger(RpcServer.class);
-    private final ServiceRegistry serviceRegistry;
-
-    public  SocketRpcServer(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
+    private final ServiceProvider serviceProvider;
+    public  SocketRpcServer(ServiceProvider serviceProvider) {
+        this.serviceProvider = serviceProvider;
 
         int corePoolSize = 5;
         int maximumPoolSize = 50;
@@ -38,10 +38,15 @@ public class SocketRpcServer implements RpcServer{
             Socket socket;
             while((socket = serverSocket.accept()) != null) {
                 logger.info("消费者连接: {}:{}", socket.getInetAddress(), socket.getPort());
-                threadPool.execute(new ScocketServerHandlerThread(socket, serviceRegistry));
+                threadPool.execute(new ScocketServerHandlerThread(socket, serviceProvider));
             }
         } catch (IOException e) {
             logger.error("连接时有错误发生：", e);
         }
+    }
+
+    @Override
+    public void stop() {
+
     }
 }

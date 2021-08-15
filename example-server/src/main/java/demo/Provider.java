@@ -1,32 +1,36 @@
 package demo;
 
-import registry.ServiceRegistry;
-import registry.impl.DefaultServiceRegistry;
+import provider.ServiceProvider;
+import provider.impl.zkServiceProvider;
 import server.RpcServer;
-import server.handler.NettyServerHandler;
 import server.impl.NettyRpcServer;
 import server.impl.SocketRpcServer;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.Method;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
- * @author: fanfanli
- * @date: 2021/8/12
+ * 服务提供者
+ * 测试
+ *
+ * @author fanfanli
+ * @date 2021/8/12
  */
 public class Provider {
 
     public static void main(String[] args) {
+        //服务实现类
         UserServiceImpl userService = new UserServiceImpl();
-        ServiceRegistry serviceRegistry = new DefaultServiceRegistry();
-        serviceRegistry.register(userService);
-        RpcServer rpcServer = new NettyRpcServer();
-        rpcServer.start(8888);
+        BlogService blogService = new BlogServiceImpl();
+
+        //暴露服务
+        ServiceProvider serviceProvider = new zkServiceProvider("127.0.0.1",8893);
+        serviceProvider.publishService(userService);
+        serviceProvider.publishService(blogService);
+        //启动Socket服务器
+//        RpcServer rpcServer = new SocketRpcServer(serviceProvider);
+//        rpcServer.start(8889);
+
+        //启动netty服务器
+        RpcServer rpcServer = new NettyRpcServer(serviceProvider);
+        rpcServer.start(8893);
     }
 }

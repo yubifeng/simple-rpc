@@ -98,6 +98,20 @@
             <version>4.0.60</version>
         </dependency>
 
+        <!--Curator客户端 这个jar包应该依赖log4j,不引入log4j会有控制台会有warn，但不影响正常使用-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <!-- log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
     </dependencies>
 
 

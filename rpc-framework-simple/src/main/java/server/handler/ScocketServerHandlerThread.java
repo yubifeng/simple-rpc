@@ -4,6 +4,7 @@ import common.dto.RpcRequest;
 import common.dto.RpcResponse;
 import common.enums.ResponseCode;
 import lombok.AllArgsConstructor;
+import provider.ServiceProvider;
 import registry.ServiceRegistry;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.lang.reflect.Method;
 import java.net.Socket;
 
 /**
+ * 负责解析得到的request请求，执行服务方法，返回给客户端
  * @author: fanfanli
  * @date: 2021/8/12
  */
@@ -21,7 +23,7 @@ import java.net.Socket;
 public class ScocketServerHandlerThread implements Runnable {
 
     private  Socket socket;
-    private final ServiceRegistry serviceRegistry;
+    private final ServiceProvider serviceProvider;
     private final static RequestHandler requestHandler;
     static {
         requestHandler = new RequestHandler();
@@ -40,11 +42,11 @@ public class ScocketServerHandlerThread implements Runnable {
 
             //3.反射执行UserServiceImpl的方法
             String interfaceName = rpcRequest.getInterfaceName();
-            Object service = serviceRegistry.getService(interfaceName);
-            Object result = requestHandler.handle(rpcRequest, service);
+            Object service = serviceProvider.getServiceImp(interfaceName);
+            RpcResponse rpcResponse = requestHandler.handle(rpcRequest, service);
 
             //4.返回结果给客户端
-            outputStream.writeObject(RpcResponse.success(result));
+            outputStream.writeObject(rpcResponse);
             outputStream.flush();
 
         } catch (IOException | ClassNotFoundException e) {
