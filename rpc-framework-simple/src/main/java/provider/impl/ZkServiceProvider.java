@@ -1,14 +1,13 @@
 package provider.impl;
 
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import provider.ServiceProvider;
-import registry.ServiceDiscovery;
 import registry.ServiceRegistry;
 import registry.impl.ZkServiceRegister;
 
 import java.net.InetSocketAddress;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,22 +16,23 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author fanfanli
  * @date 2021/8/15
  */
-public class zkServiceProvider implements ServiceProvider {
+@Data
+public class ZkServiceProvider implements ServiceProvider {
 
-    private ConcurrentHashMap<String, Object> interfaceProvider;
+    private  ConcurrentHashMap<String, Object> interfaceProvider;
 
-    private ServiceRegistry serviceRegistry;
+    private  ServiceRegistry serviceRegistry;
 
-    private String host;
-    private int port;
-    private static final Logger logger = LoggerFactory.getLogger(zkServiceProvider.class);
+    private  String host;
+    private  int port;
+    private static final Logger logger = LoggerFactory.getLogger(ZkServiceProvider.class);
 
-    public zkServiceProvider(String host, int port){
+    public ZkServiceProvider(String host, int port){
         // 需要传入服务端自身的服务的网络地址
         this.host = host;
         this.port = port;
-        this.interfaceProvider = new ConcurrentHashMap<String, Object>();
         this.serviceRegistry = new ZkServiceRegister();
+        this.interfaceProvider = new ConcurrentHashMap<String, Object>();
     }
 
     @Override

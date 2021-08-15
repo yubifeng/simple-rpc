@@ -1,6 +1,7 @@
 package registry;
 
 import java.net.InetSocketAddress;
+import java.rmi.registry.Registry;
 
 /**
  * 服务注册接口
@@ -12,5 +13,6 @@ import java.net.InetSocketAddress;
 public interface ServiceRegistry {
     //
     void register(String serviceName,InetSocketAddress serverAdderss);
+
 
 }

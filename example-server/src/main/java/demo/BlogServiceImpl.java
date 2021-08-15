@@ -1,5 +1,6 @@
 package demo;
 
+import annotation.RpcService;
 import model.Blog;
 
 /**
@@ -8,6 +9,7 @@ import model.Blog;
  * @author fanfanli
  * @date 2021/8/14
  */
+@RpcService
 public class BlogServiceImpl implements BlogService {
     @Override
     public Blog getBlogById(Integer id) {
