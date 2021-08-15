@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2021/8/15
  */
 public class RoundLoadBalance implements LoadBalance {
-    private int choose = -1;
+    private volatile int choose = -1;
 
     @Override
     public String selectServiceAddress(List<String> addressList) {
