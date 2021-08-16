@@ -6,6 +6,7 @@ import provider.ServiceProvider;
 import registry.ServiceRegistry;
 import server.handler.ScocketServerHandlerThread;
 import server.RpcServer;
+import util.ThreadPoolUtils;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -23,12 +24,8 @@ public class SocketRpcServer implements RpcServer{
     public  SocketRpcServer(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
 
-        int corePoolSize = 5;
-        int maximumPoolSize = 50;
-        long keepAliveTime = 60;
-        BlockingQueue<Runnable> workingQueue = new ArrayBlockingQueue<>(100);
-        ThreadFactory threadFactory = Executors.defaultThreadFactory();
-        threadPool = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.SECONDS, workingQueue, threadFactory);
+
+        threadPool = ThreadPoolUtils.createDefaultThreadPool();
     }
 
     @Override
