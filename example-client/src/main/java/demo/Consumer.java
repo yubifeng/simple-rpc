@@ -4,18 +4,10 @@ package demo;
 
 import client.RpcClient;
 import client.impl.NettyRpcClient;
-import client.impl.SocketRpcClient;
 import model.Blog;
 import model.User;
+import proxy.JdkProxy;
 import proxy.ProxyFactory;
-import proxy.RpcClientProxy;
-
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.net.Socket;
 
 /**
  * 服务消费者
@@ -32,15 +24,13 @@ public class Consumer {
 
         //获取netty代理客户端
         RpcClient rpcClient = new NettyRpcClient();
-        //获取代理类
-        RpcClientProxy rpcClientProxy = new RpcClientProxy(rpcClient);
         //代理接口，调用远程服务
-        IUserService userService = rpcClientProxy.getProxy(IUserService.class);
+        IUserService userService = ProxyFactory.getProxy(rpcClient,IUserService.class,ProxyFactory.type_cglib);
         User user = userService.findById(2L) ;
         User user1 = userService.findById(2L) ;
         System.out.println(user);
 
-        BlogService blogService = rpcClientProxy.getProxy(BlogService.class);
+        BlogService blogService = ProxyFactory.getProxy(rpcClient,BlogService.class,ProxyFactory.type_jdk);
         Blog blog = blogService.getBlogById(22);
         System.out.println(blog);
 

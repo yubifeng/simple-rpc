@@ -2,11 +2,10 @@ package serializer.impl;
 
 import common.enums.SerializerCode;
 import io.protostuff.LinkedBuffer;
-import io.protostuff.ProtobufIOUtil;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
-import serializer.CommonSerializer;
+import serializer.MySerializer;
 
 import java.util.Map;
 import java.util.Objects;
@@ -16,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author fanfanli
  * @date 2021/8/15
  */
-public class ProtostuffSerializer implements CommonSerializer {
+public class ProtostuffSerializer implements MySerializer {
 
     /**
      * 避免每次序列化都重新申请Buffer空间,用来存放对象序列化之后的数据

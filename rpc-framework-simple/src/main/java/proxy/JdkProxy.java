@@ -1,23 +1,15 @@
 package proxy;
 
 import client.RpcClient;
-import client.impl.NettyRpcClient;
-import client.impl.SocketRpcClient;
 import common.dto.RpcRequest;
-import common.dto.RpcResponse;
-import common.enums.ResponseCode;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import serializer.impl.JsonSerializer;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.net.Socket;
 import java.util.UUID;
 
 /**
@@ -27,10 +19,12 @@ import java.util.UUID;
  * @date 2021/8/13
  */
 @AllArgsConstructor
-public class RpcClientProxy  implements InvocationHandler  {
+public class JdkProxy implements InvocationHandler  {
+
+
 
     private  RpcClient rpcClient ;
-    private static final Logger logger = LoggerFactory.getLogger(RpcClientProxy.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdkProxy.class);
 
     /**
      * 获取一个代理类

@@ -10,7 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ReplayingDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import serializer.CommonSerializer;
+import serializer.MySerializer;
 
 
 import java.util.List;
@@ -49,7 +49,7 @@ public class CommonDecoder extends ReplayingDecoder {
         //根据类型得到相应的序列化器
         int serializerCode = in.readInt();
         logger.error("序列化器类型: {}", serializerCode);
-        CommonSerializer serializer = CommonSerializer.getSerializerByCode(serializerCode);
+        MySerializer serializer = MySerializer.getSerializerByCode(serializerCode);
         if (serializer == null) {
             logger.error("不识别的序列化器: {}", serializerCode);
             throw new RpcException(RpcErrorMessage.UNKNOWN_SERIALIZER);

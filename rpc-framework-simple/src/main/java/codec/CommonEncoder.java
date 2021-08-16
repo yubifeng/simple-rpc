@@ -8,7 +8,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import serializer.CommonSerializer;
+import serializer.MySerializer;
 
 
 /**
@@ -21,7 +21,7 @@ public class CommonEncoder extends MessageToByteEncoder {
 
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
 
-    private final CommonSerializer serializer;
+    private final MySerializer serializer;
     private static final Logger logger = LoggerFactory.getLogger(CommonEncoder.class);
 
     @Override
