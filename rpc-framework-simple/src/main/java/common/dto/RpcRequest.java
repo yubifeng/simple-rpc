@@ -19,10 +19,10 @@ import java.io.Serializable;
 @Builder
 public class RpcRequest  implements Serializable {
     private static final long serialVersionUID = 5661720043123218215L;
-//    /**
-//     * 请求id
-//     */
-//    private String id;
+    /**
+     * 请求id
+     */
+    private String requestId;
 
     /**
      * 请求接口名
@@ -51,5 +51,5 @@ public class RpcRequest  implements Serializable {
     /**
      * 是否未心跳包
      */
-    private boolean heartbeat;
+    private boolean heartBeat;
 }

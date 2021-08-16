@@ -3,7 +3,7 @@ package codec;
 import common.dto.RpcRequest;
 import common.dto.RpcResponse;
 import common.enums.PackageType;
-import common.enums.RpcErrorMessageEnum;
+import common.enums.RpcErrorMessage;
 import exception.RpcException;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -32,7 +32,7 @@ public class CommonDecoder extends ReplayingDecoder {
         logger.error("魔术: {}", magic);
         if (magic != MAGIC_NUMBER) {
             logger.error("不识别的协议包: {}", magic);
-            throw new RpcException(RpcErrorMessageEnum.UNKNOWN_PROTOCOL);
+            throw new RpcException(RpcErrorMessage.UNKNOWN_PROTOCOL);
         }
         //获取消息类型
         int packageCode = in.readInt();
@@ -44,7 +44,7 @@ public class CommonDecoder extends ReplayingDecoder {
             packageClass = RpcResponse.class;
         } else {
             logger.error("不识别的数据包: {}", packageCode);
-            throw new RpcException(RpcErrorMessageEnum.UNKNOWN_PACKAGE_TYPE);
+            throw new RpcException(RpcErrorMessage.UNKNOWN_PACKAGE_TYPE);
         }
         //根据类型得到相应的序列化器
         int serializerCode = in.readInt();
@@ -52,7 +52,7 @@ public class CommonDecoder extends ReplayingDecoder {
         CommonSerializer serializer = CommonSerializer.getSerializerByCode(serializerCode);
         if (serializer == null) {
             logger.error("不识别的序列化器: {}", serializerCode);
-            throw new RpcException(RpcErrorMessageEnum.UNKNOWN_SERIALIZER);
+            throw new RpcException(RpcErrorMessage.UNKNOWN_SERIALIZER);
         }
         //读取数据序列化后的字节长度
         int length = in.readInt();

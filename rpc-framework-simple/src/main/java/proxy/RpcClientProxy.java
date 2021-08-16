@@ -18,6 +18,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
+import java.util.UUID;
 
 /**
  * 客户端动态代理类
@@ -50,6 +51,7 @@ public class RpcClientProxy  implements InvocationHandler  {
                 .interfaceName(method.getDeclaringClass().getName())
                 .methodName(method.getName())
                 .params(args)
+                .requestId(UUID.randomUUID().toString())
                 .paramTypes(method.getParameterTypes())
                 .build();
 

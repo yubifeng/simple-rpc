@@ -11,6 +11,8 @@ import server.handler.NettyServerHandler;
 import java.io.Serializable;
 
 /**
+ * RCP响应实体
+ *
  * @author fanfanli
  * @date 2021/8/12
  */
@@ -20,6 +22,11 @@ import java.io.Serializable;
 public class RpcResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 715745410605631233L;
+
+    /**
+     * 响应id 应与请求id一一对应
+     */
+    private String responseId;
 
     /**
      * 响应码
