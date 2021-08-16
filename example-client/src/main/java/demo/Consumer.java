@@ -37,7 +37,7 @@ public class Consumer {
         //代理接口，调用远程服务
         IUserService userService = rpcClientProxy.getProxy(IUserService.class);
         User user = userService.findById(2L) ;
-
+        User user1 = userService.findById(2L) ;
         System.out.println(user);
 
         BlogService blogService = rpcClientProxy.getProxy(BlogService.class);
