@@ -2,8 +2,8 @@ package server.impl;
 
 import annotation.RpcService;
 import annotation.RpcServiceScan;
-import codec.CommonDecoder;
-import codec.CommonEncoder;
+import codec.MyDecoder;
+import codec.MyEncoder;
 import common.enums.RpcErrorMessage;
 import exception.RpcException;
 import hook.Shutdown;
@@ -67,8 +67,8 @@ public class NettyRpcServer implements RpcServer {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             //增加编解码器
-                            pipeline.addLast(new CommonEncoder(new ProtostuffSerializer()));
-                            pipeline.addLast(new CommonDecoder());
+                            pipeline.addLast(new MyEncoder(new ProtostuffSerializer()));
+                            pipeline.addLast(new MyDecoder());
                             //心跳包处理
                             pipeline.addLast(new IdleStateHandler(30,0,0, TimeUnit.SECONDS));
                             //给pipeline管道设置处理器

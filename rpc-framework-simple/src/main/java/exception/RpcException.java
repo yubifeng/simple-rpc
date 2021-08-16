@@ -3,6 +3,8 @@ package exception;
 import common.enums.RpcErrorMessage;
 
 /**
+ * 自定义Rpc异常
+ *
  * @author fanfanli
  * @date 2021/8/13
  */

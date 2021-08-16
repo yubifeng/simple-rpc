@@ -20,9 +20,9 @@ import java.util.List;
  *
  * @author fanfanli
  */
-public class CommonDecoder extends ReplayingDecoder {
+public class MyDecoder extends ReplayingDecoder {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommonDecoder.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyDecoder.class);
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
 
     @Override

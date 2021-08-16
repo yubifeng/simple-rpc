@@ -17,12 +17,12 @@ import serializer.MySerializer;
  * @author ziyang
  */
 @AllArgsConstructor
-public class CommonEncoder extends MessageToByteEncoder {
+public class MyEncoder extends MessageToByteEncoder {
 
     private static final int MAGIC_NUMBER = 0xCAFEBABE;
 
     private final MySerializer serializer;
-    private static final Logger logger = LoggerFactory.getLogger(CommonEncoder.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyEncoder.class);
 
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) {

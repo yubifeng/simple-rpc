@@ -1,12 +1,8 @@
 package registry.impl;
 
-import loadBalance.LoadBalance;
-import loadBalance.impl.RandomLoadBalance;
-import loadBalance.impl.RoundLoadBalance;
-import org.apache.curator.RetryPolicy;
+import loadBalance.LoadBalancer;
+import loadBalance.impl.RandomLoadBalancer;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import registry.ServiceDiscovery;
@@ -30,7 +26,7 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
     // zookeeper根路径节点
     private static final String ROOT_PATH = "MyRPC";
 
-    private final LoadBalance loadBalance;
+    private final LoadBalancer loadBalancer;
     //服务的本地缓存
     private ConcurrentHashMap<String, String> serviceAddressCache;
     public static Logger logger = LoggerFactory.getLogger(ZkServiceDiscovery.class);
@@ -43,7 +39,7 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
 //        this.client.start();
         client = CuratorUtils.getZkClient();
         logger.info("zookeeper 连接成功");
-        loadBalance = new RandomLoadBalance();
+        loadBalancer = new RandomLoadBalancer();
         serviceAddressCache = new ConcurrentHashMap<>();
     }
 
@@ -59,7 +55,7 @@ public class ZkServiceDiscovery implements ServiceDiscovery {
             else {
                 List<String> serverAddresses = client.getChildren().forPath("/"+serviceName);
                 //进行负载均衡
-                address = loadBalance.selectServiceAddress(serverAddresses);
+                address = loadBalancer.selectServiceAddress(serverAddresses);
                 serviceAddressCache.put(serviceName, address);
             }
             String[] result = address.split(":");

@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
+ * 错误信息
+ *
  * @author fanfanli
  * @date 2021/8/13
  */
@@ -12,6 +14,9 @@ import lombok.ToString;
 @Getter
 @ToString
 public enum RpcErrorMessage {
+    /**
+     *  客户端连接服务端失败
+     */
     CLIENT_CONNECT_SERVER_FAILURE("客户端连接服务端失败"),
     SERVICE_INVOCATION_FAILURE("服务调用失败"),
     SERVICE_CAN_NOT_BE_FOUND("没有找到指定的服务"),

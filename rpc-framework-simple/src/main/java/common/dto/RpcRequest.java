@@ -44,10 +44,10 @@ public class RpcRequest  implements Serializable {
      */
     private Class<?>[] paramTypes;
 
-//    /**
-//     * 版本号
-//     */
-//    private String version;
+    /**
+     * 版本号
+     */
+    private String version;
     /**
      * 是否未心跳包
      */
